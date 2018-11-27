@@ -149,7 +149,14 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
         @Override
         public void afterOnCreate(Bundle savedInstanceState) {
             super.afterOnCreate(savedInstanceState);
-            initMapView(savedInstanceState);
+
+            mapView = (TextureMapView) getRootView().findViewById(getContext().getResources().getIdentifier("mapView", "id", getContext().getPackageName()));
+
+            mapView.onCreate(savedInstanceState);
+
+            map = mapView.getMap();
+
+            initMapView();
         }
 
         @Override
@@ -176,13 +183,7 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
             mapView.onSaveInstanceState(outState);
         }
 
-        protected void initMapView(Bundle savedInstanceState){
-
-            mapView = (TextureMapView) getRootView().findViewById(getContext().getResources().getIdentifier("mapView", "id", getContext().getPackageName()));
-
-            mapView.onCreate(savedInstanceState);
-
-            map = mapView.getMap();
+        protected void initMapView(){
 
             //定位点初始化
             MyLocationStyle myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
