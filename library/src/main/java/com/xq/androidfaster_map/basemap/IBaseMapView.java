@@ -509,12 +509,12 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
             for(int i=0;i<position.length;i++)
                 boundsBuilder.include(new LatLng(position[i][0],position[i][1]));
 
-            map.animateCamera(CameraUpdateFactory.newLatLngBounds( boundsBuilder.build(),18));
+            map.animateCamera(CameraUpdateFactory.newLatLngBounds( boundsBuilder.build(),15));
         }
 
         @Override
         public void moveMapToPoint(double lat, double lon){
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lon),18));
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,lon),15));
         }
 
         @Override
