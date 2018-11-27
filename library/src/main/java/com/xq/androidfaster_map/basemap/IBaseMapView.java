@@ -224,6 +224,13 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
                 }
             });
 
+            map.setOnMapLongClickListener(new AMap.OnMapLongClickListener() {
+                @Override
+                public void onMapLongClick(LatLng latLng) {
+                    afterMapLongClick(latLng.latitude,latLng.longitude);
+                }
+            });
+
             map.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
@@ -563,6 +570,9 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
 
         //点击地图后调用
         protected abstract void afterMapClick(double lat,double lon);
+
+        //长按地图后调用
+        protected abstract void afterMapLongClick(double lat,double lon);
 
         //路线规划结束后调用
         protected abstract void afterGetRouteFinish(RouteResult result, int erroCode);
