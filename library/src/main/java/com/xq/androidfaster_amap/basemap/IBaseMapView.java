@@ -1,6 +1,5 @@
 package com.xq.androidfaster_amap.basemap;
 
-
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -37,21 +36,20 @@ import com.amap.api.services.route.RouteResult;
 import com.amap.api.services.route.RouteSearch;
 import com.amap.api.services.route.WalkPath;
 import com.amap.api.services.route.WalkRouteResult;
+import com.xq.androidfaster.base.abs.AbsViewDelegate;
+import com.xq.androidfaster.base.abs.IAbsView;
 import com.xq.androidfaster_amap.bean.behavior.MarkBehavior;
 import com.xq.androidfaster_amap.util.overlay.BusRouteOverlay;
 import com.xq.androidfaster_amap.util.overlay.DrivingRouteOverlay;
 import com.xq.androidfaster_amap.util.overlay.RideRouteOverlay;
 import com.xq.androidfaster_amap.util.overlay.RouteOverlay;
 import com.xq.androidfaster_amap.util.overlay.WalkRouteOverlay;
-import com.xq.projectdefine.base.abs.AbsView;
-import com.xq.projectdefine.base.abs.AbsViewDelegate;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-
-public interface IBaseMapView<T extends IBaseMapPresenter> extends AbsMapView<T> {
+public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T> {
 
     @Override
     default void setMarks(List<MarkBehavior> list){
@@ -130,7 +128,7 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends AbsMapView<T>
 
     public MapDelegate getMapDelegate();
 
-    public abstract class MapDelegate<T extends IBaseMapPresenter> extends AbsViewDelegate<T> implements AbsMapView<T> {
+    public abstract class MapDelegate<T extends IBaseMapPresenter> extends AbsViewDelegate<T> implements IAbsMapView<T> {
 
         public static int MARKERANIMATE_DURATION = 500;
 
@@ -144,7 +142,7 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends AbsMapView<T>
         public RouteSearch routeSearch;
         public RouteOverlay lastOverlay;
 
-        public MapDelegate(AbsView view) {
+        public MapDelegate(IAbsView view) {
             super(view);
         }
 
