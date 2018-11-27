@@ -1,22 +1,22 @@
 package com.xq.androidfaster_amap.util.eventbus;
 
 
-import com.amap.api.location.AMapLocation;
+import android.location.Location;
 
 
 public class LocationEvent {
 
-    private AMapLocation location;
+    private Location location;
 
-    public LocationEvent(AMapLocation location) {
+    public LocationEvent(Location location) {
         this.location = location;
     }
 
-    public AMapLocation getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(AMapLocation location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 }
