@@ -17,7 +17,7 @@ import com.amap.api.services.route.DrivePath;
 import com.amap.api.services.route.DriveStep;
 import com.amap.api.services.route.TMC;
 import com.xq.androidfaster_map.R;
-import com.xq.androidfaster_map.util.AMapUtil;
+import com.xq.androidfaster_map.util.amaptools.AMapUtil;
 
 import java.util.ArrayList;
 import java.util.List;

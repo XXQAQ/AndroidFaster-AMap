@@ -8,7 +8,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import com.amap.api.location.AMapLocation;
-import com.xq.androidfaster.FasterInterface;
 import com.xq.androidfaster.base.abs.AbsPresenterDelegate;
 import com.xq.androidfaster.base.abs.IAbsPresenter;
 import com.xq.androidfaster.base.abs.IAbsView;
@@ -68,22 +67,18 @@ public interface IBaseLocationPresenter<T extends IAbsView> extends IAbsLocation
 
             LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver,new IntentFilter(ACTION_LOCATION));
 
-            //如果不使用自带权限方案，请在处理权限后自行调用start方法
-            if (FasterInterface.isIsAutoPermission())
-            {
-                PermissionUtils.permission(PermissionConstants.LOCATION)
-                        .callback(new PermissionUtils.FullCallback() {
-                            @Override
-                            public void onGranted(List<String> permissionsGranted) {
-                                start();
-                            }
+            PermissionUtils.permission(PermissionConstants.LOCATION)
+                    .callback(new PermissionUtils.FullCallback() {
+                        @Override
+                        public void onGranted(List<String> permissionsGranted) {
+                            start();
+                        }
 
-                            @Override
-                            public void onDenied(List<String> permissionsDeniedForever, List<String> permissionsDenied) {
-                            }
-                        })
-                        .request();
-            }
+                        @Override
+                        public void onDenied(List<String> permissionsDeniedForever, List<String> permissionsDenied) {
+                        }
+                    })
+                    .request();
         }
 
         @Override

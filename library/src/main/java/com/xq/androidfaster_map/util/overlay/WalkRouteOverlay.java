@@ -11,7 +11,7 @@ import com.amap.api.maps.model.PolylineOptions;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.route.WalkPath;
 import com.amap.api.services.route.WalkStep;
-import com.xq.androidfaster_map.util.AMapServicesUtil;
+import com.xq.androidfaster_map.util.amaptools.AMapServicesUtil;
 
 import java.util.List;
 

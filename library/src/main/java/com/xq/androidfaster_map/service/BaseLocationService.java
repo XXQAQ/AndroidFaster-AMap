@@ -9,7 +9,6 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.xq.androidfaster.FasterInterface;
 import com.xq.androidfaster.util.tools.BundleUtil;
 
 public class BaseLocationService extends Service {
@@ -39,7 +38,7 @@ public class BaseLocationService extends Service {
 
     public void startLocation(){
         //定位
-        locationClient = new AMapLocationClient(FasterInterface.getApp());
+        locationClient = new AMapLocationClient(getBaseContext());
         locationClient.setLocationListener(new AMapLocationListener() {
             @Override
             public void onLocationChanged(AMapLocation location) {

@@ -18,7 +18,7 @@ import com.amap.api.services.route.RouteBusWalkItem;
 import com.amap.api.services.route.RouteRailwayItem;
 import com.amap.api.services.route.TaxiItem;
 import com.amap.api.services.route.WalkStep;
-import com.xq.androidfaster_map.util.AMapUtil;
+import com.xq.androidfaster_map.util.amaptools.AMapUtil;
 
 import java.util.ArrayList;
 import java.util.List;

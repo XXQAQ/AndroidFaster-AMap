@@ -1,4 +1,4 @@
-package com.xq.androidfaster_map.util;
+package com.xq.androidfaster_map.util.amaptools;
 
 import android.graphics.Bitmap;
 

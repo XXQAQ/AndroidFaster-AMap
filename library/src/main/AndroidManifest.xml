@@ -2,7 +2,15 @@
     package="com.xq.androidfaster_map" >
 
     <application>
+
         <service android:name=".service.BaseLocationService"/>
+
+        <!--高德必需-->
+        <service android:name="com.amap.api.location.APSService"/>
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="@string/map_key"/>
+
     </application>
 
 </manifest>
