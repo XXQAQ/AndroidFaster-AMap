@@ -60,13 +60,15 @@ public class PoiOverlay {
 			if (mPois != null && mPois.size() > 0) {
 				if (mAMap == null)
 					return;
-				if(mPois.size()==1){
-					mAMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mPois.get(0).getLatLonPoint().getLatitude(),
-							mPois.get(0).getLatLonPoint().getLongitude()), 15f));
-				}else{
-					LatLngBounds bounds = getLatLngBounds();
-					mAMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 30));
-				}
+//				if(mPois.size()==1){
+//					mAMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mPois.get(0).getLatLonPoint().getLatitude(),
+//							mPois.get(0).getLatLonPoint().getLongitude()), 15f));
+//				}else{
+//					LatLngBounds bounds = getLatLngBounds();
+//					mAMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 30));
+//				}
+				//建议移动至第一个兴趣点即可
+				mAMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mPois.get(0).getLatLonPoint().getLatitude(), mPois.get(0).getLatLonPoint().getLongitude()), 15f));
 			}
 		}catch(Throwable e){
 			e.printStackTrace();
