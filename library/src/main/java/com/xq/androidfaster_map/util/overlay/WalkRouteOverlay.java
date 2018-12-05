@@ -68,7 +68,7 @@ public class WalkRouteOverlay extends RouteOverlay {
             e.printStackTrace();
         }
     }
-	
+
 	/**
 	 * 检查这一步的最后一点和下一步的起始点之间是否存在空隙
 	 */

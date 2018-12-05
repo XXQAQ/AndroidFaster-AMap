@@ -8,7 +8,7 @@ import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.services.core.PoiItem;
-
+import com.xq.androidfaster_map.bean.entity.AddressBean;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,8 +35,9 @@ public class PoiOverlay {
 	public void addToMap() {
 		try{
 			for (int i = 0; i < mPois.size(); i++) {
+				PoiItem item = mPois.get(i);
 				Marker marker = mAMap.addMarker(getMarkerOptions(i));
-				marker.setObject(i);
+				marker.setObject(new AddressBean(item.getTitle(),item.getLatLonPoint().getLatitude(),item.getLatLonPoint().getLongitude(),item));
 				mPoiMarks.add(marker);
 			}
 		}catch(Throwable e){
@@ -61,7 +62,7 @@ public class PoiOverlay {
 					return;
 				if(mPois.size()==1){
 					mAMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mPois.get(0).getLatLonPoint().getLatitude(),
-							mPois.get(0).getLatLonPoint().getLongitude()), 18f));
+							mPois.get(0).getLatLonPoint().getLongitude()), 15f));
 				}else{
 					LatLngBounds bounds = getLatLngBounds();
 					mAMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 30));
