@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.LinearInterpolator;
-import android.widget.Toast;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.Projection;
@@ -23,8 +22,10 @@ import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.maps.model.animation.AlphaAnimation;
 import com.amap.api.maps.model.animation.Animation;
 import com.amap.api.maps.model.animation.ScaleAnimation;
-import com.amap.api.services.core.AMapException;
 import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.poisearch.PoiResult;
+import com.amap.api.services.poisearch.PoiSearch;
 import com.amap.api.services.route.BusPath;
 import com.amap.api.services.route.BusRouteResult;
 import com.amap.api.services.route.DrivePath;
@@ -41,6 +42,7 @@ import com.xq.androidfaster.base.abs.IAbsView;
 import com.xq.androidfaster_map.bean.behavior.MarkBehavior;
 import com.xq.androidfaster_map.util.overlay.BusRouteOverlay;
 import com.xq.androidfaster_map.util.overlay.DrivingRouteOverlay;
+import com.xq.androidfaster_map.util.overlay.PoiOverlay;
 import com.xq.androidfaster_map.util.overlay.RideRouteOverlay;
 import com.xq.androidfaster_map.util.overlay.RouteOverlay;
 import com.xq.androidfaster_map.util.overlay.WalkRouteOverlay;
@@ -59,6 +61,11 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
     @Override
     default void setDifferentMarks(final List<MarkBehavior> list){
         getMapDelegate().setDifferentMarks(list);
+    }
+
+    @Override
+    default void setDifferentMarks(final List<MarkBehavior> list, boolean isAppend) {
+        getMapDelegate().setDifferentMarks(list,isAppend);
     }
 
     @Override
@@ -92,8 +99,18 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
     }
 
     @Override
+    default void poi(String keyWord, String city, int page) {
+        getMapDelegate().poi(keyWord,city,page);
+    }
+
+    @Override
     default void removeLastRoute() {
         getMapDelegate().removeLastRoute();
+    }
+
+    @Override
+    default void removeLastPoi() {
+        getMapDelegate().removeLastPoi();
     }
 
     @Override
@@ -140,7 +157,9 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
         public Marker lastMarker;
 
         public RouteSearch routeSearch;
-        public RouteOverlay lastOverlay;
+
+        public RouteOverlay lastRouteOverlay;
+        public PoiOverlay lastPoiOverlay;
 
         public MapDelegate(IAbsView view) {
             super(view);
@@ -261,93 +280,62 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
             routeSearch.setRouteSearchListener(new RouteSearch.OnRouteSearchListener() {
                 @Override
                 public void onBusRouteSearched(BusRouteResult result, int errorCode) {
-                    myRouteSearch(result,errorCode);
+                    onRouteSearch(result,errorCode);
                 }
 
                 @Override
                 public void onDriveRouteSearched(DriveRouteResult result, int errorCode) {
-                    myRouteSearch(result,errorCode);
+                    onRouteSearch(result,errorCode);
                 }
 
                 @Override
                 public void onWalkRouteSearched(WalkRouteResult result, int errorCode) {
-                    myRouteSearch(result,errorCode);
+                    onRouteSearch(result,errorCode);
                 }
 
                 @Override
                 public void onRideRouteSearched(RideRouteResult result, int errorCode) {
-                    myRouteSearch(result,errorCode);
+                    onRouteSearch(result,errorCode);
                 }
 
-                public void myRouteSearch(RouteResult result, int errorCode){
+                public void onRouteSearch(RouteResult result, int errorCode){
 
                     List list_path = null;
                     if (result instanceof WalkRouteResult)
-                    {
                         list_path = ((WalkRouteResult) result).getPaths();
-                    }
                     else    if (result instanceof BusRouteResult)
-                    {
                         list_path = ((BusRouteResult) result).getPaths();
-                    }
                     else    if (result instanceof DriveRouteResult)
-                    {
                         list_path = ((DriveRouteResult) result).getPaths();
-                    }
                     else    if (result instanceof RideRouteResult)
-                    {
                         list_path = ((RideRouteResult) result).getPaths();
-                    }
 
-                    if (errorCode == AMapException.CODE_AMAP_SUCCESS)
+                    if (result != null && list_path != null && list_path.size() > 0)
                     {
-                        if (result != null && list_path != null)
-                        {
-                            if (list_path.size() > 0)
-                            {
-                                final Path path = (Path) list_path.get(0);
+                        final Path path = (Path) list_path.get(0);
 
-                                RouteOverlay overlay = null;
-                                if (result instanceof WalkRouteResult)
-                                {
-                                    overlay = new WalkRouteOverlay(getContext(), map, (WalkPath) path, result.getStartPos(), result.getTargetPos());
-                                }
-                                else    if (result instanceof BusRouteResult)
-                                {
-                                    overlay = new BusRouteOverlay(getContext(), map, (BusPath) path, result.getStartPos(), result.getTargetPos());
-                                }
-                                else    if (result instanceof DriveRouteResult)
-                                {
-                                    overlay = new DrivingRouteOverlay(getContext(), map, (DrivePath) path, result.getStartPos(), result.getTargetPos(),null);
-                                }
-                                else    if (result instanceof RideRouteResult)
-                                {
-                                    overlay = new RideRouteOverlay(getContext(), map, (RidePath) path, result.getStartPos(), result.getTargetPos());
-                                }
+                        RouteOverlay overlay = null;
+                        if (result instanceof WalkRouteResult)
+                            overlay = new WalkRouteOverlay(getContext(), map, (WalkPath) path, result.getStartPos(), result.getTargetPos());
+                        else    if (result instanceof BusRouteResult)
+                            overlay = new BusRouteOverlay(getContext(), map, (BusPath) path, result.getStartPos(), result.getTargetPos());
+                        else    if (result instanceof DriveRouteResult)
+                            overlay = new DrivingRouteOverlay(getContext(), map, (DrivePath) path, result.getStartPos(), result.getTargetPos(),null);
+                        else    if (result instanceof RideRouteResult)
+                            overlay = new RideRouteOverlay(getContext(), map, (RidePath) path, result.getStartPos(), result.getTargetPos());
 
-                                overlay.removeFromMap();
-                                overlay.addToMap();
-                                overlay.zoomToSpan();
+                        overlay.removeFromMap();
+                        overlay.addToMap();
+                        overlay.zoomToSpan();
 
-                                lastOverlay = overlay;
+                        lastRouteOverlay = overlay;
 
-                            }
-                            else    if (result != null && list_path == null)
-                            {
-                                Toast.makeText(getContext(),"无路线规划结果",Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        else
-                        {
-                            Toast.makeText(getContext(),"无路线规划结果",Toast.LENGTH_SHORT).show();
-                        }
+                        afterGetRouteFinish(result,true);
                     }
                     else
                     {
-                        Toast.makeText(getContext(),"路线规划失败",Toast.LENGTH_SHORT).show();
+                        afterGetRouteFinish(result,false);
                     }
-
-                    afterGetRouteFinish(result,errorCode);
                 }
             });
         }
@@ -383,7 +371,12 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
         }
 
         @Override
-        public void setDifferentMarks(final List<MarkBehavior> list){
+        public void setDifferentMarks(List<MarkBehavior> list) {
+            setDifferentMarks(list,false);
+        }
+
+        @Override
+        public void setDifferentMarks(final List<MarkBehavior> list,boolean isAppend){
 
             final List<MarkBehavior> list_new = new LinkedList<>();
             final List<MarkBehavior> list_newCopy = new LinkedList<>();
@@ -399,7 +392,8 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
                 }
             }
 
-            removeMarks(list_remove);
+            if (!isAppend)
+                removeMarks(list_remove);
 
             for (Marker marker : list_marker)
             {
@@ -486,11 +480,57 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
         }
 
         @Override
+        public void poi(String keyWord,String city,int page){
+
+            PoiSearch.Query query = new PoiSearch.Query(keyWord, "", city);
+            query.setPageSize(10);
+            query.setPageNum(page);
+
+            PoiSearch poiSearch = new PoiSearch(getContext(), query);
+            poiSearch.setOnPoiSearchListener(new PoiSearch.OnPoiSearchListener() {
+                @Override
+                public void onPoiSearched(PoiResult poiResult, int i) {
+                    List<PoiItem> poiItems = poiResult.getPois();
+                    if (poiItems != null && poiItems != null && poiItems.size() > 0)
+                    {
+                        PoiOverlay poiOverlay = new PoiOverlay(map, poiItems);
+                        poiOverlay.removeFromMap();
+                        poiOverlay.addToMap();
+                        poiOverlay.zoomToSpan();
+
+                        lastPoiOverlay = poiOverlay;
+
+                        afterGetPoiFinish(poiResult,true);
+                    }
+                    else
+                    {
+                        afterGetPoiFinish(poiResult,false);
+                    }
+                }
+
+                @Override
+                public void onPoiItemSearched(PoiItem poiItem, int i) {
+
+                }
+            });
+            poiSearch.searchPOIAsyn();
+        }
+
+        @Override
         public void removeLastRoute() {
-            if (lastOverlay != null)
+            if (lastRouteOverlay != null)
             {
-                lastOverlay.removeFromMap();
-                lastOverlay = null;
+                lastRouteOverlay.removeFromMap();
+                lastRouteOverlay = null;
+            }
+        }
+
+        @Override
+        public void removeLastPoi(){
+            if (lastPoiOverlay != null)
+            {
+                lastPoiOverlay.removeFromMap();
+                lastPoiOverlay = null;
             }
         }
 
@@ -574,7 +614,10 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
         protected abstract void afterMapLongClick(double lat,double lon);
 
         //路线规划结束后调用
-        protected abstract void afterGetRouteFinish(RouteResult result, int erroCode);
+        protected abstract void afterGetRouteFinish(RouteResult result,boolean isSuccess);
+
+        //兴趣点搜索结束后调用
+        protected abstract void afterGetPoiFinish(PoiResult result,boolean isSuccess);
 
     }
 

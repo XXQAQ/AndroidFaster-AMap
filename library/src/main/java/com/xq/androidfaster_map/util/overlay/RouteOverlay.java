@@ -1,6 +1,5 @@
 package com.xq.androidfaster_map.util.overlay;
 
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -85,7 +84,7 @@ public class RouteOverlay {
 	 * @since V2.1.0
 	 */
 	protected BitmapDescriptor getStartBitmapDescriptor() {
-		return BitmapDescriptorFactory.fromResource(R.mipmap.amap_start);
+		return BitmapDescriptorFactory.fromResource(R.drawable.amap_start);
 	}
 	/**
 	 * 给终点Marker设置图标，并返回更换图标的图片。如不用默认图片，需要重写此方法。
@@ -93,7 +92,7 @@ public class RouteOverlay {
 	 * @since V2.1.0
 	 */
 	protected BitmapDescriptor getEndBitmapDescriptor() {
-		return BitmapDescriptorFactory.fromResource(R.mipmap.amap_end);
+		return BitmapDescriptorFactory.fromResource(R.drawable.amap_end);
 	}
 	/**
 	 * 给公交Marker设置图标，并返回更换图标的图片。如不用默认图片，需要重写此方法。
@@ -101,7 +100,7 @@ public class RouteOverlay {
 	 * @since V2.1.0
 	 */
 	protected BitmapDescriptor getBusBitmapDescriptor() {
-		return BitmapDescriptorFactory.fromResource(R.mipmap.amap_bus);
+		return BitmapDescriptorFactory.fromResource(R.drawable.amap_bus);
 	}
 	/**
 	 * 给步行Marker设置图标，并返回更换图标的图片。如不用默认图片，需要重写此方法。
@@ -109,11 +108,11 @@ public class RouteOverlay {
 	 * @since V2.1.0
 	 */
 	protected BitmapDescriptor getWalkBitmapDescriptor() {
-		return BitmapDescriptorFactory.fromResource(R.mipmap.amap_man);
+		return BitmapDescriptorFactory.fromResource(R.drawable.amap_man);
 	}
 
 	protected BitmapDescriptor getDriveBitmapDescriptor() {
-		return BitmapDescriptorFactory.fromResource(R.mipmap.amap_car);
+		return BitmapDescriptorFactory.fromResource(R.drawable.amap_car);
 	}
 
 	protected void addStartAndEndMarker() {
@@ -149,6 +148,11 @@ public class RouteOverlay {
 		LatLngBounds.Builder b = LatLngBounds.builder();
 		b.include(new LatLng(startPoint.latitude, startPoint.longitude));
 		b.include(new LatLng(endPoint.latitude, endPoint.longitude));
+		for (Polyline polyline : allPolyLines){
+			for (LatLng point : polyline.getPoints()){
+				b.include(point);
+			}
+		}
 		return b.build();
 	}
 	/**
@@ -168,7 +172,7 @@ public class RouteOverlay {
 			e.printStackTrace();
 		}
 	}
-	
+
 	protected void addStationMarker(MarkerOptions options) {
 		if(options == null) {
 			return;
@@ -177,7 +181,7 @@ public class RouteOverlay {
 		if(marker != null) {
 			stationMarkers.add(marker);
 		}
-		
+
 	}
 
 	protected void addPolyLine(PolylineOptions options) {
@@ -189,7 +193,7 @@ public class RouteOverlay {
 			allPolyLines.add(polyline);
 		}
 	}
-	
+
 	protected float getRouteWidth() {
 		return 18f;
 	}
@@ -218,4 +222,5 @@ public class RouteOverlay {
 	// protected int getShowRouteZoom() {
 	// return 15;
 	// }
+
 }

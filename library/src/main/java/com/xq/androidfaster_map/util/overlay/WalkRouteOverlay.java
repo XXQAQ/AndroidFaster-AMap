@@ -1,6 +1,5 @@
 package com.xq.androidfaster_map.util.overlay;
 
-
 import android.content.Context;
 
 import com.amap.api.maps.AMap;
@@ -12,7 +11,6 @@ import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.route.WalkPath;
 import com.amap.api.services.route.WalkStep;
 import com.xq.androidfaster_map.util.amaptools.AMapServicesUtil;
-
 import java.util.List;
 
 /**
@@ -36,7 +34,7 @@ public class WalkRouteOverlay extends RouteOverlay {
 	 * @since V2.1.0
 	 */
 	public WalkRouteOverlay(Context context, AMap amap, WalkPath path,
-                            LatLonPoint start, LatLonPoint end) {
+							LatLonPoint start, LatLonPoint end) {
 		super(context);
 		this.mAMap = amap;
 		this.walkPath = path;

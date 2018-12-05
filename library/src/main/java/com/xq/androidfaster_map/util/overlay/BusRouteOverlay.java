@@ -1,6 +1,5 @@
 package com.xq.androidfaster_map.util.overlay;
 
-
 import android.content.Context;
 
 import com.amap.api.maps.AMap;
@@ -19,7 +18,6 @@ import com.amap.api.services.route.RouteRailwayItem;
 import com.amap.api.services.route.TaxiItem;
 import com.amap.api.services.route.WalkStep;
 import com.xq.androidfaster_map.util.amaptools.AMapUtil;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -272,7 +270,7 @@ public class BusRouteOverlay extends RouteOverlay {
 	 * @param snippet
 	 */
 	private void addWalkStationMarkers(LatLng latLng, String title,
-                                       String snippet) {
+									   String snippet) {
 		addStationMarker(new MarkerOptions().position(latLng).title(title)
 				.snippet(snippet).anchor(0.5f, 0.5f).visible(nodeIconVisible)
 				.icon(getWalkBitmapDescriptor()));
