@@ -483,7 +483,7 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
         public void poi(String keyWord,String city,int page){
 
             PoiSearch.Query query = new PoiSearch.Query(keyWord, "", city);
-            query.setPageSize(10);
+            query.setPageSize(20);
             query.setPageNum(page);
 
             PoiSearch poiSearch = new PoiSearch(getContext(), query);
@@ -587,7 +587,7 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
         }
 
         //重写该方法处理定位失败后逻辑
-        protected abstract void afterGetLocationErro();
+        public abstract void afterGetLocationErro();
 
         //重写该方法返回定位点图标
         protected abstract int getLocationIcon();
