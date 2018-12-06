@@ -223,8 +223,7 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
 
                 @Override
                 public View getInfoWindow(Marker marker) {
-                    MarkBehavior behavior = (MarkBehavior) marker.getObject();
-                    return getWindowView(behavior);
+                    return getWindowView(marker);
                 }
 
                 @Override
@@ -239,14 +238,14 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
             map.setOnMapClickListener(new AMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(LatLng latLng) {
-                    afterMapClick(latLng.latitude,latLng.longitude);
+                    afterMapClick(new double[]{latLng.latitude,latLng.longitude});
                 }
             });
 
             map.setOnMapLongClickListener(new AMap.OnMapLongClickListener() {
                 @Override
                 public void onMapLongClick(LatLng latLng) {
-                    afterMapLongClick(latLng.latitude,latLng.longitude);
+                    afterMapLongClick(new double[]{latLng.latitude,latLng.longitude});
                 }
             });
 
@@ -324,7 +323,6 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
                         else    if (result instanceof RideRouteResult)
                             overlay = new RideRouteOverlay(getContext(), map, (RidePath) path, result.getStartPos(), result.getTargetPos());
 
-                        overlay.removeFromMap();
                         overlay.addToMap();
                         overlay.zoomToSpan();
 
@@ -378,39 +376,37 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
         @Override
         public void setDifferentMarks(final List<MarkBehavior> list,boolean isAppend){
 
-            final List<MarkBehavior> list_new = new LinkedList<>();
-            final List<MarkBehavior> list_newCopy = new LinkedList<>();
+            final List<MarkBehavior> list_old = new LinkedList<>();
             final List<MarkBehavior> list_remove = new LinkedList<>();
+            final List<MarkBehavior> list_newAdd = new LinkedList<>();
 
-            //遍历所有旧Marker，当发现旧marker在新集合中不存在的时候，则在原集合中删除且标记到删除集合中
             for (Marker marker : list_marker)
             {
                 MarkBehavior markBehavior = (MarkBehavior) marker.getObject();
+                list_old.add(markBehavior);
+            }
+
+            //遍历所有旧MarkBehavior，当发现旧marker在新list中不存在的时候，则在标记到删除集合中
+            for (MarkBehavior markBehavior : list_old)
+            {
                 if (!list.contains(markBehavior))
                 {
                     list_remove.add(markBehavior);
                 }
             }
-
             if (!isAppend)
                 removeMarks(list_remove);
 
-            for (Marker marker : list_marker)
+            //遍历所有新list的MarkBehavior，只要该marker未添加到地图上，则标记到添加集合中
+            for (MarkBehavior markBehavior : list)
             {
-                MarkBehavior markBehavior = (MarkBehavior) marker.getObject();
-                list_newCopy.add(markBehavior);
-            }
-
-            //遍历所有新markerBehavior，只要该marker未添加到地图上，则将Marker标记到新集合中
-            for (MarkBehavior new_markBehavior : list)
-            {
-                if (!list_newCopy.contains(new_markBehavior))
+                if (!list_old.contains(markBehavior))
                 {
-                    list_new.add(new_markBehavior);
+                    list_newAdd.add(markBehavior);
                 }
             }
 
-            setMarks(list_new);
+            setMarks(list_newAdd);
         }
 
         @Override
@@ -560,13 +556,9 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
         @Override
         public void moveMapToLocationPoint(){
             if (getPresenter().getLocation() != null)
-            {
                 moveMapToPoint(new double[]{getPresenter().getLocation().getLatitude(),getPresenter().getLocation().getLongitude()});
-            }
             else
-            {
                 afterGetLocationErro();
-            }
         }
 
         @Override
@@ -599,7 +591,7 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
         protected abstract ArrayList<BitmapDescriptor> getMarkerDescript(MarkBehavior behavior);
 
         //重写该方法返回弹窗样式
-        protected abstract View getWindowView(MarkBehavior behavior);
+        protected abstract View getWindowView(Marker marker);
 
         //标记点击后调用
         protected abstract void afterMarkerClick(Marker marker);
@@ -608,10 +600,10 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
         protected abstract void afterMapStatusChangeFinish(CameraPosition cameraPosition);
 
         //点击地图后调用
-        protected abstract void afterMapClick(double lat,double lon);
+        protected abstract void afterMapClick(double[] position);
 
         //长按地图后调用
-        protected abstract void afterMapLongClick(double lat,double lon);
+        protected abstract void afterMapLongClick(double[] position);
 
         //路线规划结束后调用
         protected abstract void afterGetRouteFinish(RouteResult result,boolean isSuccess);
