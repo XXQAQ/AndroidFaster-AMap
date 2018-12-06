@@ -1,4 +1,4 @@
-package com.xq.androidfaster_map.util.overlay;
+package com.xq.androidfaster_map.util.amap.overlay;
 
 import android.content.Context;
 import android.graphics.Bitmap;

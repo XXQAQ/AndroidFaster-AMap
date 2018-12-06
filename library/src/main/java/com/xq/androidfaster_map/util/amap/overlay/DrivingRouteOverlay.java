@@ -1,4 +1,4 @@
-package com.xq.androidfaster_map.util.overlay;
+package com.xq.androidfaster_map.util.amap.overlay;
 
 
 import android.content.Context;
@@ -18,7 +18,7 @@ import com.amap.api.services.route.DrivePath;
 import com.amap.api.services.route.DriveStep;
 import com.amap.api.services.route.TMC;
 import com.xq.androidfaster_map.R;
-import com.xq.androidfaster_map.util.amaptools.AMapUtil;
+import com.xq.androidfaster_map.util.amap.AMapUtil;
 
 import java.util.ArrayList;
 import java.util.List;

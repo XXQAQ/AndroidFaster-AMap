@@ -1,4 +1,4 @@
-package com.xq.androidfaster_map.util.overlay;
+package com.xq.androidfaster_map.util.amap.overlay;
 
 import android.content.Context;
 
@@ -17,7 +17,7 @@ import com.amap.api.services.route.RouteBusWalkItem;
 import com.amap.api.services.route.RouteRailwayItem;
 import com.amap.api.services.route.TaxiItem;
 import com.amap.api.services.route.WalkStep;
-import com.xq.androidfaster_map.util.amaptools.AMapUtil;
+import com.xq.androidfaster_map.util.amap.AMapUtil;
 import java.util.ArrayList;
 import java.util.List;
 

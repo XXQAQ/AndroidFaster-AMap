@@ -1,4 +1,4 @@
-package com.xq.androidfaster_map.util.overlay;
+package com.xq.androidfaster_map.util.amap.overlay;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
@@ -8,7 +8,7 @@ import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.services.core.PoiItem;
-import com.xq.androidfaster_map.bean.entity.AddressBean;
+import com.xq.androidfaster_map.bean.entity.MarkBean;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class PoiOverlay {
 			for (int i = 0; i < mPois.size(); i++) {
 				PoiItem item = mPois.get(i);
 				Marker marker = mAMap.addMarker(getMarkerOptions(i));
-				marker.setObject(new AddressBean(item.getTitle(),item.getLatLonPoint().getLatitude(),item.getLatLonPoint().getLongitude(),item));
+				marker.setObject(new MarkBean(item.getLatLonPoint().getLatitude(),item.getLatLonPoint().getLongitude(),item.getTitle(),item));
 				mPoiMarks.add(marker);
 			}
 		}catch(Throwable e){

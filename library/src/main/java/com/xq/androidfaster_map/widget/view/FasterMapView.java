@@ -5,21 +5,21 @@ import android.util.AttributeSet;
 import com.amap.api.maps.AMapOptions;
 import com.amap.api.maps.TextureMapView;
 
-public class MapView extends TextureMapView {
+public class FasterMapView extends TextureMapView {
 
-    public MapView(Context context) {
+    public FasterMapView(Context context) {
         super(context);
     }
 
-    public MapView(Context context, AttributeSet attributeSet) {
+    public FasterMapView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
     }
 
-    public MapView(Context context, AttributeSet attributeSet, int i) {
+    public FasterMapView(Context context, AttributeSet attributeSet, int i) {
         super(context, attributeSet, i);
     }
 
-    public MapView(Context context, AMapOptions aMapOptions) {
+    public FasterMapView(Context context, AMapOptions aMapOptions) {
         super(context, aMapOptions);
     }
 

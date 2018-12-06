@@ -1,4 +1,4 @@
-package com.xq.androidfaster_map.util.overlay;
+package com.xq.androidfaster_map.util.amap.overlay;
 
 
 import android.content.Context;
@@ -12,7 +12,7 @@ import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.route.RidePath;
 import com.amap.api.services.route.RideStep;
 import com.xq.androidfaster_map.R;
-import com.xq.androidfaster_map.util.amaptools.AMapUtil;
+import com.xq.androidfaster_map.util.amap.AMapUtil;
 import java.util.List;
 
 /**
