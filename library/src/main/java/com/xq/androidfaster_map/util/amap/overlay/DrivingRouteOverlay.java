@@ -37,7 +37,6 @@ public class DrivingRouteOverlay extends RouteOverlay{
     private PolylineOptions mPolylineOptionscolor;
     private Context mContext;
     private boolean isColorfulline = true;
-    private float mWidth = 25;
     private List<LatLng> mLatLngsOfPath;
 
     public void setIsColorfulline(boolean iscolorfulline) {
@@ -64,19 +63,6 @@ public class DrivingRouteOverlay extends RouteOverlay{
         initBitmapDescriptor();
     }
 
-    public float getRouteWidth() {
-        return mWidth;
-    }
-
-    /**
-     * 设置路线宽度
-     *
-     * @param mWidth 路线宽度，取值范围：大于0
-     */
-    public void setRouteWidth(float mWidth) {
-        this.mWidth = mWidth;
-    }
-
     /**
      * 添加驾车路线添加到地图上显示。
      */
@@ -87,7 +73,7 @@ public class DrivingRouteOverlay extends RouteOverlay{
                 return;
             }
 
-            if (mWidth == 0 || drivePath == null) {
+            if (getRouteWidth() == 0 || drivePath == null) {
                 return;
             }
             mLatLngsOfPath = new ArrayList<LatLng>();
@@ -216,12 +202,12 @@ public class DrivingRouteOverlay extends RouteOverlay{
     private BitmapDescriptor jamTraffic = null;
     private BitmapDescriptor veryJamTraffic = null;
     private void initBitmapDescriptor() {
-        defaultRoute = BitmapDescriptorFactory.fromResource(R.drawable.amap_route_color_texture_6_arrow);
-        smoothTraffic = BitmapDescriptorFactory.fromResource(R.drawable.amap_route_color_texture_4_arrow);
-        unknownTraffic = BitmapDescriptorFactory.fromResource(R.drawable.amap_route_color_texture_0_arrow);
-        slowTraffic = BitmapDescriptorFactory.fromResource(R.drawable.amap_route_color_texture_3_arrow);
-        jamTraffic = BitmapDescriptorFactory.fromResource(R.drawable.amap_route_color_texture_2_arrow);
-        veryJamTraffic = BitmapDescriptorFactory.fromResource(R.drawable.amap_route_color_texture_9_arrow);
+        defaultRoute = BitmapDescriptorFactory.fromResource(R.drawable.map_route_color_texture_6_arrow);
+        smoothTraffic = BitmapDescriptorFactory.fromResource(R.drawable.map_route_color_texture_4_arrow);
+        unknownTraffic = BitmapDescriptorFactory.fromResource(R.drawable.map_route_color_texture_0_arrow);
+        slowTraffic = BitmapDescriptorFactory.fromResource(R.drawable.map_route_color_texture_3_arrow);
+        jamTraffic = BitmapDescriptorFactory.fromResource(R.drawable.map_route_color_texture_2_arrow);
+        veryJamTraffic = BitmapDescriptorFactory.fromResource(R.drawable.map_route_color_texture_9_arrow);
 
     }
 
@@ -326,7 +312,7 @@ public class DrivingRouteOverlay extends RouteOverlay{
     }
 
     private BitmapDescriptor getThroughPointBitDes() {
-        return BitmapDescriptorFactory.fromResource(R.drawable.amap_through);
+        return BitmapDescriptorFactory.fromResource(R.drawable.map_through);
 
     }
 

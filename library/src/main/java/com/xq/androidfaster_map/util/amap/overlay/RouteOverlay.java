@@ -2,7 +2,6 @@ package com.xq.androidfaster_map.util.amap.overlay;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
@@ -84,7 +83,7 @@ public class RouteOverlay {
 	 * @since V2.1.0
 	 */
 	protected BitmapDescriptor getStartBitmapDescriptor() {
-		return BitmapDescriptorFactory.fromResource(R.drawable.amap_start);
+		return BitmapDescriptorFactory.fromResource(R.drawable.map_start);
 	}
 	/**
 	 * 给终点Marker设置图标，并返回更换图标的图片。如不用默认图片，需要重写此方法。
@@ -92,7 +91,7 @@ public class RouteOverlay {
 	 * @since V2.1.0
 	 */
 	protected BitmapDescriptor getEndBitmapDescriptor() {
-		return BitmapDescriptorFactory.fromResource(R.drawable.amap_end);
+		return BitmapDescriptorFactory.fromResource(R.drawable.map_end);
 	}
 	/**
 	 * 给公交Marker设置图标，并返回更换图标的图片。如不用默认图片，需要重写此方法。
@@ -100,7 +99,7 @@ public class RouteOverlay {
 	 * @since V2.1.0
 	 */
 	protected BitmapDescriptor getBusBitmapDescriptor() {
-		return BitmapDescriptorFactory.fromResource(R.drawable.amap_bus);
+		return BitmapDescriptorFactory.fromResource(R.drawable.map_bus);
 	}
 	/**
 	 * 给步行Marker设置图标，并返回更换图标的图片。如不用默认图片，需要重写此方法。
@@ -108,11 +107,11 @@ public class RouteOverlay {
 	 * @since V2.1.0
 	 */
 	protected BitmapDescriptor getWalkBitmapDescriptor() {
-		return BitmapDescriptorFactory.fromResource(R.drawable.amap_man);
+		return BitmapDescriptorFactory.fromResource(R.drawable.map_man);
 	}
 
 	protected BitmapDescriptor getDriveBitmapDescriptor() {
-		return BitmapDescriptorFactory.fromResource(R.drawable.amap_car);
+		return BitmapDescriptorFactory.fromResource(R.drawable.map_car);
 	}
 
 	protected void addStartAndEndMarker() {
@@ -195,24 +194,19 @@ public class RouteOverlay {
 	}
 
 	protected float getRouteWidth() {
-		return 18f;
+		return 15f;
 	}
 
 	protected int getWalkColor() {
-		return Color.parseColor("#6db74d");
+		return mContext.getResources().getColor(R.color.polyline);
 	}
 
-	/**
-	 * 自定义路线颜色。
-	 * return 自定义路线颜色。
-	 * @since V2.2.1
-	 */
 	protected int getBusColor() {
-		return Color.parseColor("#537edc");
+		return mContext.getResources().getColor(R.color.polyline);
 	}
 
 	protected int getDriveColor() {
-		return Color.parseColor("#537edc");
+		return mContext.getResources().getColor(R.color.polyline);
 	}
 
 	public void addToMap(){
