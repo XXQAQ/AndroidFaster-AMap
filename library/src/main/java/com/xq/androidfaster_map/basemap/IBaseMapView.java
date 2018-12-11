@@ -155,11 +155,10 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
 
         public CopyOnWriteArrayList<Marker> list_marker = new CopyOnWriteArrayList<>();
         public Marker lastMarker;
-
-        public RouteSearch routeSearch;
-
         public RouteOverlay lastRouteOverlay;
         public PoiOverlay lastPoiOverlay;
+
+        protected RouteSearch routeSearch;
 
         public MapDelegate(IAbsView view) {
             super(view);
