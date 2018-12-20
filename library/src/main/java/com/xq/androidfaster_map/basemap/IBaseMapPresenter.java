@@ -20,6 +20,12 @@ public interface IBaseMapPresenter<T extends IBaseMapView> extends IAbsMapPresen
         }
 
         @Override
+        protected void onLocationPermissionSuccess() {
+            super.onLocationPermissionSuccess();
+            getBindView().initLocationPoint();
+        }
+
+        @Override
         public void onReceiveLocation(Location location) {
             super.onReceiveLocation(getLocation());
 

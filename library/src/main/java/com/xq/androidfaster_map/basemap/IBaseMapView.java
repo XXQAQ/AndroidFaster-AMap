@@ -54,6 +54,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T> {
 
     @Override
+    default void initLocationPoint() {
+        getMapDelegate().initLocationPoint();
+    }
+
+    @Override
     default void setMarks(List<MarkBehavior> list){
         getMapDelegate().setMarks(list);
     }
@@ -203,16 +208,6 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
 
         protected void initMapView(){
 
-            //定位点初始化
-            MyLocationStyle myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
-            myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromResource(getLocationIcon()));
-            myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE_NO_CENTER);
-            myLocationStyle.interval(1000); //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
-            myLocationStyle.strokeColor(Color.TRANSPARENT);// 设置圆形的边框颜色
-            myLocationStyle.radiusFillColor(getLocationRadiusColor());// 设置圆形的填充颜色
-            map.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
-            map.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
-
             //map相关设置
             AMap.InfoWindowAdapter adapter = new AMap.ImageInfoWindowAdapter() {
                 @Override
@@ -231,7 +226,6 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
                 }
             };
             map.setInfoWindowAdapter(adapter);
-
 
             //map相关监听
             map.setOnMapClickListener(new AMap.OnMapClickListener() {
@@ -335,6 +329,19 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
                     }
                 }
             });
+        }
+
+        @Override
+        public void initLocationPoint() {
+            //定位点初始化
+            MyLocationStyle myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
+            myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromResource(getLocationIcon()));
+            myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE_NO_CENTER);
+            myLocationStyle.interval(1000); //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
+            myLocationStyle.strokeColor(Color.TRANSPARENT);// 设置圆形的边框颜色
+            myLocationStyle.radiusFillColor(getLocationRadiusColor());// 设置圆形的填充颜色
+            map.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
+            map.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
         }
 
         @Override

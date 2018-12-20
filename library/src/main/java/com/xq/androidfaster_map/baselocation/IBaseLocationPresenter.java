@@ -71,7 +71,7 @@ public interface IBaseLocationPresenter<T extends IAbsView> extends IAbsLocation
                     .callback(new PermissionUtils.FullCallback() {
                         @Override
                         public void onGranted(List<String> permissionsGranted) {
-                            start();
+                            onLocationPermissionSuccess();
                         }
 
                         @Override
@@ -87,9 +87,8 @@ public interface IBaseLocationPresenter<T extends IAbsView> extends IAbsLocation
             LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver);
         }
 
-        //开启定位
-        @Override
-        public void start() {
+        //开始定位
+        public void start(){
             getContext().startService(new Intent(getContext(),BaseLocationService.class));
         }
 
@@ -98,7 +97,12 @@ public interface IBaseLocationPresenter<T extends IAbsView> extends IAbsLocation
             return location;
         }
 
-        //该方法在接收到定位数据后首先调用，您需要忽略此方法，而选择重写afterReceiveLocation完成后续逻辑
+        //获取权限成功后调用
+        protected void onLocationPermissionSuccess(){
+            start();
+        }
+
+        //该方法在接收到定位数据后调用，您需要忽略此方法，而选择重写afterReceiveLocation完成后续逻辑
         @Deprecated
         protected void onReceiveLocation(Location location){
             afterReceiveLocation(location);
