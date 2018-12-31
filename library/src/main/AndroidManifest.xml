@@ -3,7 +3,7 @@
 
     <application>
 
-        <service android:name=".service.BaseLocationService"/>
+        <service android:name=".service.LocationService"/>
 
         <!--高德必需-->
         <service android:name="com.amap.api.location.APSService"/>

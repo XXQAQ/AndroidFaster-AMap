@@ -74,8 +74,8 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
     }
 
     @Override
-    default void clearMarkes(){
-        getMapDelegate().clearMarkes();
+    default void clearMarks(){
+        getMapDelegate().clearMarks();
     }
 
     @Override
@@ -420,7 +420,7 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
         }
 
         @Override
-        public void clearMarkes(){
+        public void clearMarks(){
             reallyRemoveMarks(list_marker);
         }
 

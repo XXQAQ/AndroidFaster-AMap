@@ -14,17 +14,17 @@ import com.xq.androidfaster.base.abs.IAbsView;
 import com.xq.androidfaster.util.constant.PermissionConstants;
 import com.xq.androidfaster.util.tools.BundleUtil;
 import com.xq.androidfaster.util.tools.PermissionUtils;
-import com.xq.androidfaster_map.service.BaseLocationService;
+import com.xq.androidfaster_map.service.LocationService;
 
 import java.util.List;
 
-import static com.xq.androidfaster_map.service.BaseLocationService.ACTION_LOCATION;
+import static com.xq.androidfaster_map.service.LocationService.ACTION_LOCATION;
 
 public interface IBaseLocationPresenter<T extends IAbsView> extends IAbsLocationPresenter<T> {
 
     @Override
-    default void start(){
-        getLocationDelegate().start();
+    default void startLocation(){
+        getLocationDelegate().startLocation();
     }
 
     @Override
@@ -71,7 +71,7 @@ public interface IBaseLocationPresenter<T extends IAbsView> extends IAbsLocation
                     .callback(new PermissionUtils.FullCallback() {
                         @Override
                         public void onGranted(List<String> permissionsGranted) {
-                            start();
+                            startLocation();
                         }
 
                         @Override
@@ -88,8 +88,8 @@ public interface IBaseLocationPresenter<T extends IAbsView> extends IAbsLocation
         }
 
         //开始定位
-        public void start(){
-            getContext().startService(new Intent(getContext(),BaseLocationService.class));
+        public void startLocation(){
+            getContext().startService(new Intent(getContext(), LocationService.class));
         }
 
         //获取定位

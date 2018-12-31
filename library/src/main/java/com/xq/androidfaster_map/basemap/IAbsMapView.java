@@ -19,7 +19,7 @@ public interface IAbsMapView<T extends IAbsMapPresenter> extends IAbsView<T> {
     public void removeMarks(final List<MarkBehavior> list);
 
     //清空所有Marker
-    public void clearMarkes();
+    public void clearMarks();
 
     //清空地图
     public void clearMap();

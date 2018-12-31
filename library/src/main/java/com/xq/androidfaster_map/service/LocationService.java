@@ -11,9 +11,9 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.xq.androidfaster.util.tools.BundleUtil;
 
-public class BaseLocationService extends Service {
+public class LocationService extends Service {
 
-    public static final String ACTION_LOCATION = "com.xq.androidfaster_map.service.BaseLocationService";
+    public static final String ACTION_LOCATION = "com.xq.androidfaster_map.service.LocationService";
 
     public AMapLocationClient locationClient;
 
@@ -26,18 +26,6 @@ public class BaseLocationService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        startLocation();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (locationClient != null)
-            locationClient.onDestroy();
-    }
-
-    public void startLocation(){
-        //定位
         locationClient = new AMapLocationClient(getBaseContext());
         locationClient.setLocationListener(new AMapLocationListener() {
             @Override
@@ -57,4 +45,10 @@ public class BaseLocationService extends Service {
         locationClient.startLocation();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (locationClient != null)
+            locationClient.onDestroy();
+    }
 }
