@@ -1,11 +1,9 @@
-package com.xq.androidfaster_map.baselocation;
-
+package com.xq.androidfaster_map.base.baselocation;
 
 import android.location.Location;
 
 import com.xq.androidfaster.base.abs.IAbsPresenter;
 import com.xq.androidfaster.base.abs.IAbsView;
-
 
 public interface IAbsLocationPresenter<T extends IAbsView> extends IAbsPresenter<T> {
 

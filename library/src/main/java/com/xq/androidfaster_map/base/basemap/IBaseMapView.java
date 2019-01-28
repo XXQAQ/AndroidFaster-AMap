@@ -1,4 +1,4 @@
-package com.xq.androidfaster_map.basemap;
+package com.xq.androidfaster_map.base.basemap;
 
 import android.graphics.Color;
 import android.graphics.Point;
