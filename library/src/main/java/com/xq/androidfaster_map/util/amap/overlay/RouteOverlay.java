@@ -13,6 +13,7 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.Polyline;
 import com.amap.api.maps.model.PolylineOptions;
+import com.xq.androidfaster.util.tools.ScreenUtils;
 import com.xq.androidfaster_map.R;
 
 import java.util.ArrayList;
@@ -135,8 +136,8 @@ public class RouteOverlay {
 				return;
 			try {
 				LatLngBounds bounds = getLatLngBounds();
-				mAMap.animateCamera(CameraUpdateFactory
-						.newLatLngBounds(bounds, 50));
+				int padding = ScreenUtils.dip2px(mContext, 100);
+				mAMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding));
 			} catch (Throwable e) {
 				e.printStackTrace();
 			}

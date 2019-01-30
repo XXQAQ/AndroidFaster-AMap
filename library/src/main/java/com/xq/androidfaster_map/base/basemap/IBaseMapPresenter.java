@@ -21,10 +21,14 @@ public interface IBaseMapPresenter<T extends IBaseMapView> extends IAbsMapPresen
 
         @Override
         public void onReceiveLocation(Location location) {
-            super.onReceiveLocation(getLocation());
+            super.onReceiveLocation(location);
 
             if (isFirstLocation)
+            {
                 getBindView().moveMapToLocationPoint();
+                getBindView().zoomMap(100);
+            }
+
         }
 
     }
