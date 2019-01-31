@@ -136,7 +136,7 @@ public class RouteOverlay {
 				return;
 			try {
 				LatLngBounds bounds = getLatLngBounds();
-				int padding = ScreenUtils.dip2px(mContext, 100);
+				int padding = ScreenUtils.dip2px( 100);
 				mAMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding));
 			} catch (Throwable e) {
 				e.printStackTrace();

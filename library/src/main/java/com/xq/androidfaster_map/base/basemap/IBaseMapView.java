@@ -105,6 +105,11 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
     }
 
     @Override
+    default void poi(String keyWord, double[]position, int radius, int page) {
+        getMapDelegate().poi(keyWord,position,radius,page);
+    }
+
+    @Override
     default void removeLastRoute() {
         getMapDelegate().removeLastRoute();
     }
@@ -130,8 +135,18 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
     }
 
     @Override
+    default void moveMapToPoint(double[] position, int scale) {
+        getMapDelegate().moveMapToPoint(position,scale);
+    }
+
+    @Override
     default void moveMapToLocationPoint(){
         getMapDelegate().moveMapToLocationPoint();
+    }
+
+    @Override
+    default void moveMapToLocationPoint(int scale) {
+        getMapDelegate().moveMapToLocationPoint(scale);
     }
 
     @Override
@@ -352,7 +367,7 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
                 MarkerOptions markerOption = new MarkerOptions();
                 markerOption.period(200);
                 markerOption.position(new LatLng(behavior.getLatitude(),behavior.getLongitude()));
-                markerOption.title(behavior.getTitle()).snippet(behavior.getLittleTitle());
+                markerOption.title(behavior.getTitle());
                 markerOption.draggable(false);//设置Marker可拖动
                 markerOption.icons(getMarkerDescript(behavior));
                 markerOption.setFlat(false);//设置marker平贴地图效果
@@ -483,10 +498,48 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
         public void poi(String keyWord,String city,int page){
 
             PoiSearch.Query query = new PoiSearch.Query(keyWord, "", city);
-            query.setPageSize(20);
+            query.setPageSize(10);
             query.setPageNum(page);
 
             PoiSearch poiSearch = new PoiSearch(getContext(), query);
+            poiSearch.setOnPoiSearchListener(new PoiSearch.OnPoiSearchListener() {
+                @Override
+                public void onPoiSearched(PoiResult poiResult, int i) {
+                    List<PoiItem> poiItems = poiResult.getPois();
+                    if (poiItems != null && poiItems != null && poiItems.size() > 0)
+                    {
+                        PoiOverlay poiOverlay = new PoiOverlay(map, poiItems);
+                        poiOverlay.removeFromMap();
+                        poiOverlay.addToMap();
+                        poiOverlay.zoomToSpan();
+
+                        lastPoiOverlay = poiOverlay;
+
+                        afterGetPoiFinish(poiResult,true);
+                    }
+                    else
+                    {
+                        afterGetPoiFinish(poiResult,false);
+                    }
+                }
+
+                @Override
+                public void onPoiItemSearched(PoiItem poiItem, int i) {
+
+                }
+            });
+            poiSearch.searchPOIAsyn();
+        }
+
+        @Override
+        public void poi(String keyWord, double[]position, int radius, int page) {
+
+            PoiSearch.Query query = new PoiSearch.Query(keyWord, "", "");
+            query.setPageSize(10);
+            query.setPageNum(page);
+
+            PoiSearch poiSearch = new PoiSearch(getContext(), query);
+            poiSearch.setBound(new PoiSearch.SearchBound(new LatLonPoint(position[0],position[1]),radius));
             poiSearch.setOnPoiSearchListener(new PoiSearch.OnPoiSearchListener() {
                 @Override
                 public void onPoiSearched(PoiResult poiResult, int i) {
@@ -549,13 +602,18 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
             for(int i=0;i<position.length;i++)
                 boundsBuilder.include(new LatLng(position[i][0],position[i][1]));
 
-            int padding = ScreenUtils.dip2px(getContext(), 100);
+            int padding = ScreenUtils.dip2px( 100);
             map.animateCamera(CameraUpdateFactory.newLatLngBounds( boundsBuilder.build(),padding));
         }
 
         @Override
         public void moveMapToPoint(double[] position){
             map.animateCamera(CameraUpdateFactory.changeLatLng(new LatLng(position[0],position[1])));
+        }
+
+        @Override
+        public void moveMapToPoint(double[] position, int scale) {
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(position[0],position[1]),scaleToZoom(scale)));
         }
 
         @Override
@@ -567,12 +625,20 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
         }
 
         @Override
+        public void moveMapToLocationPoint(int scale) {
+            if (getPresenter().getLocation() != null)
+                moveMapToPoint(new double[]{getPresenter().getLocation().getLatitude(),getPresenter().getLocation().getLongitude()},scale);
+            else
+                afterGetLocationErro();
+        }
+
+        @Override
         public void zoomMap(int scale) {
             map.animateCamera(CameraUpdateFactory.zoomTo(scaleToZoom(scale)));
         }
 
         //缩放换算
-        private int scaleToZoom(int scale) {
+        protected int scaleToZoom(int scale) {
             if (scale <= 10) return 19;
             else if (scale <= 25) return 18;
             else if (scale <= 50) return 17;
