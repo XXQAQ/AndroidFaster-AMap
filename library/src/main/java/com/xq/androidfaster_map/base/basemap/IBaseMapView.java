@@ -85,28 +85,28 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
     }
 
     @Override
-    default void walk(double[][] position) {
-        getMapDelegate().walk(position);
+    default void walkRoute(double[][] position) {
+        getMapDelegate().walkRoute(position);
     }
 
     @Override
-    default void traffic(double[][] position, String city) {
-        getMapDelegate().traffic(position,city);
+    default void trafficRoute(double[][] position, String city) {
+        getMapDelegate().trafficRoute(position,city);
     }
 
     @Override
-    default void driver(double[][] position) {
-        getMapDelegate().driver(position);
+    default void driverRoute(double[][] position) {
+        getMapDelegate().driverRoute(position);
     }
 
     @Override
-    default void poi(String keyWord, String city, int page) {
-        getMapDelegate().poi(keyWord,city,page);
+    default void regionPoi(String keyWord, String city, int page) {
+        getMapDelegate().regionPoi(keyWord,city,page);
     }
 
     @Override
-    default void poi(String keyWord, double[]position, int radius, int page) {
-        getMapDelegate().poi(keyWord,position,radius,page);
+    default void nearbyPoi(String keyWord, double[]position, int radius, int page) {
+        getMapDelegate().nearbyPoi(keyWord,position,radius,page);
     }
 
     @Override
@@ -369,7 +369,7 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
                 markerOption.position(new LatLng(behavior.getLatitude(),behavior.getLongitude()));
                 markerOption.title(behavior.getTitle());
                 markerOption.draggable(false);//设置Marker可拖动
-                markerOption.icons(getMarkerDescript(behavior));
+                markerOption.icons(getMarkerDescriptor(behavior));
                 markerOption.setFlat(false);//设置marker平贴地图效果
 
                 Marker marker = map.addMarker(markerOption);
@@ -477,25 +477,25 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
         }
 
         @Override
-        public void walk(double[][] position) {
+        public void walkRoute(double[][] position) {
             RouteSearch.WalkRouteQuery query = new RouteSearch.WalkRouteQuery(new RouteSearch.FromAndTo(new LatLonPoint(position[0][0],position[0][1]),new LatLonPoint(position[1][0],position[1][1])));
             routeSearch.calculateWalkRouteAsyn(query);
         }
 
         @Override
-        public void traffic(double[][] position,String city) {
+        public void trafficRoute(double[][] position, String city) {
             RouteSearch.BusRouteQuery query = new RouteSearch.BusRouteQuery(new RouteSearch.FromAndTo(new LatLonPoint(position[0][0],position[0][1]),new LatLonPoint(position[1][0],position[1][1])), RouteSearch.BUS_DEFAULT, city,1);
             routeSearch.calculateBusRouteAsyn(query);
         }
 
         @Override
-        public void driver(double[][] position) {
+        public void driverRoute(double[][] position) {
             RouteSearch.DriveRouteQuery query = new RouteSearch.DriveRouteQuery(new RouteSearch.FromAndTo(new LatLonPoint(position[0][0],position[0][1]),new LatLonPoint(position[1][0],position[1][1])), RouteSearch.WALK_DEFAULT, null, null, "");
             routeSearch.calculateDriveRouteAsyn(query);
         }
 
         @Override
-        public void poi(String keyWord,String city,int page){
+        public void regionPoi(String keyWord, String city, int page){
 
             PoiSearch.Query query = new PoiSearch.Query(keyWord, "", city);
             query.setPageSize(10);
@@ -532,7 +532,7 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
         }
 
         @Override
-        public void poi(String keyWord, double[]position, int radius, int page) {
+        public void nearbyPoi(String keyWord, double[]position, int radius, int page) {
 
             PoiSearch.Query query = new PoiSearch.Query(keyWord, "", "");
             query.setPageSize(10);
@@ -687,7 +687,7 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
         protected abstract int getLocationRadiusColor();
 
         //重写该方法返回Marker样式
-        protected abstract ArrayList<BitmapDescriptor> getMarkerDescript(MarkerBehavior behavior);
+        protected abstract ArrayList<BitmapDescriptor> getMarkerDescriptor(MarkerBehavior behavior);
 
         //重写该方法返回弹窗样式
         protected abstract View getWindowView(Marker marker);
