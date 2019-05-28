@@ -37,7 +37,7 @@ public class PoiOverlay {
 			for (int i = 0; i < mPois.size(); i++) {
 				PoiItem item = mPois.get(i);
 				Marker marker = mAMap.addMarker(getMarkerOptions(i));
-				marker.setObject(new MarkerBean(item.getLatLonPoint().getLatitude(),item.getLatLonPoint().getLongitude(),item.getTitle(),item));
+				marker.setObject(new MarkerBean(item.getLatLonPoint().getLatitude(),item.getLatLonPoint().getLongitude(),item.getTitle()).setTag(item));
 				mPoiMarks.add(marker);
 			}
 		}catch(Throwable e){
