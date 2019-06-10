@@ -187,8 +187,8 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
         }
 
         @Override
-        public void afterOnCreate(Bundle savedInstanceState) {
-            super.afterOnCreate(savedInstanceState);
+        public void create(Bundle savedInstanceState) {
+            super.create(savedInstanceState);
 
             mapView = (TextureMapView) getRootView().findViewById(getContext().getResources().getIdentifier("mapView", "id", getContext().getPackageName()));
 
@@ -200,20 +200,20 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
         }
 
         @Override
-        public void onResume() {
-            super.onResume();
+        public void visible() {
+            super.visible();
             mapView.onResume();
         }
 
         @Override
-        public void onPause() {
-            super.onPause();
+        public void invisible() {
+            super.invisible();
             mapView.onPause();
         }
 
         @Override
-        public void onDestroy() {
-            super.onDestroy();
+        public void destroy() {
+            super.destroy();
             mapView.onDestroy();
         }
 
