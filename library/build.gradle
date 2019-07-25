@@ -49,7 +49,7 @@ dependencies {
 
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.github.XXQAQ:WorldBean:1.10.1'
-    implementation 'com.github.XXQAQ:AndroidFaster:045749b7cc'
+    implementation 'com.github.XXQAQ:AndroidFaster:3.25.0'
     //    高德
     implementation 'com.amap.api:3dmap:latest.integration'
     implementation 'com.amap.api:location:latest.integration'
