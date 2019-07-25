@@ -2,11 +2,15 @@ package com.xq.androidfaster_map.base.basemap;
 
 import android.location.Location;
 import com.xq.androidfaster.base.base.IFasterBaseBehavior;
+import com.xq.androidfaster.base.core.Controler;
 import com.xq.androidfaster_map.base.baselocation.IBaseLocationPresenter;
 import java.util.List;
 
-public interface IBaseMapPresenter<T extends IBaseMapView> extends IBaseLocationPresenter<T>, IBaseMapBehavior<T> {
+public interface IBaseMapPresenter extends IBaseLocationPresenter, IBaseMapBehavior {
 
+    ///////////////////////////////////////////////////////////////////////////
+    // V
+    ///////////////////////////////////////////////////////////////////////////
     @Deprecated
     @Override
     default void setMarkers(List list){
@@ -147,9 +151,9 @@ public interface IBaseMapPresenter<T extends IBaseMapView> extends IBaseLocation
 
     public MapDelegate getMapDelegate();
 
-    public abstract class MapDelegate<T extends IBaseMapView> extends LocationDelegate<T> implements IBaseMapBehavior<T> {
+    public abstract class MapDelegate extends LocationDelegate implements IBaseMapBehavior {
 
-        public MapDelegate(T presenter) {
+        public MapDelegate(Controler presenter) {
             super(presenter);
         }
 
@@ -162,6 +166,9 @@ public interface IBaseMapPresenter<T extends IBaseMapView> extends IBaseLocation
 
 
 
+        ///////////////////////////////////////////////////////////////////////////
+        // V
+        ///////////////////////////////////////////////////////////////////////////
         @Deprecated
         @Override
         public void setMarkers(List list) {

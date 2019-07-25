@@ -3,13 +3,11 @@ package com.xq.androidfaster_map.base.basemap;
 import com.xq.androidfaster_map.base.baselocation.IBaseLocationBehavior;
 import java.util.List;
 
-public interface IBaseMapBehavior<T extends IBaseMapBehavior> extends IBaseLocationBehavior<T> {
+public interface IBaseMapBehavior extends IBaseLocationBehavior {
 
-    //为P层设计的方法
-
-
-
-    //为V层设计的方法
+    ///////////////////////////////////////////////////////////////////////////
+    // V
+    ///////////////////////////////////////////////////////////////////////////
     //设置Markers(不会对地图上已添加的Markers去重)
     public void setMarkers(List list);
 

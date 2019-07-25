@@ -40,6 +40,7 @@ import com.amap.api.services.route.RouteSearch;
 import com.amap.api.services.route.WalkPath;
 import com.amap.api.services.route.WalkRouteResult;
 import com.xq.androidfaster.base.base.IFasterBaseBehavior;
+import com.xq.androidfaster.base.core.Controler;
 import com.xq.androidfaster.base.delegate.BaseDelegate;
 import com.xq.androidfaster.util.tools.ScreenUtils;
 import com.xq.androidfaster_map.bean.behavior.MarkerBehavior;
@@ -54,8 +55,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public interface IBaseMapView<T extends IBaseMapPresenter> extends IBaseMapBehavior<T> {
+public interface IBaseMapView extends IBaseMapBehavior {
 
+    ///////////////////////////////////////////////////////////////////////////
+    // V
+    ///////////////////////////////////////////////////////////////////////////
     @Override
     default void setMarkers(List list){
         getMapDelegate().setMarkers(list);
@@ -168,7 +172,7 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IBaseMapBehav
 
     public MapDelegate getMapDelegate();
 
-    public abstract class MapDelegate<T extends IBaseMapPresenter> extends BaseDelegate<T> implements IBaseMapBehavior<T> {
+    public abstract class MapDelegate extends BaseDelegate implements IBaseMapBehavior {
 
         public static int MARKERANIMATE_DURATION = 500;
 
@@ -183,7 +187,7 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IBaseMapBehav
 
         protected RouteSearch routeSearch;
 
-        public MapDelegate(T controler) {
+        public MapDelegate(Controler controler) {
             super(controler);
         }
 
@@ -715,6 +719,9 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IBaseMapBehav
 
 
 
+        ///////////////////////////////////////////////////////////////////////////
+        // P
+        ///////////////////////////////////////////////////////////////////////////
         @Deprecated
         @Override
         public void startLocation() {

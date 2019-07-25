@@ -8,6 +8,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import com.amap.api.location.AMapLocation;
+import com.xq.androidfaster.base.core.Controler;
 import com.xq.androidfaster.base.delegate.BaseDelegate;
 import com.xq.androidfaster.util.constant.PermissionConstants;
 import com.xq.androidfaster.util.tools.BundleUtil;
@@ -16,7 +17,7 @@ import com.xq.androidfaster_map.service.LocationService;
 import java.util.List;
 import static com.xq.androidfaster_map.service.LocationService.ACTION_LOCATION;
 
-public interface IBaseLocationPresenter<T extends IBaseLocationBehavior> extends IBaseLocationBehavior<T> {
+public interface IBaseLocationPresenter extends IBaseLocationBehavior {
 
     @Override
     default void startLocation(){
@@ -35,7 +36,7 @@ public interface IBaseLocationPresenter<T extends IBaseLocationBehavior> extends
 
     public LocationDelegate getLocationDelegate();
 
-    public abstract class LocationDelegate<T extends IBaseLocationBehavior> extends BaseDelegate<T> implements IBaseLocationBehavior<T> {
+    public abstract class LocationDelegate extends BaseDelegate implements IBaseLocationBehavior {
 
         private Location location;
 
@@ -57,7 +58,7 @@ public interface IBaseLocationPresenter<T extends IBaseLocationBehavior> extends
             }
         };
 
-        public LocationDelegate(T controler) {
+        public LocationDelegate(Controler controler) {
             super(controler);
         }
 

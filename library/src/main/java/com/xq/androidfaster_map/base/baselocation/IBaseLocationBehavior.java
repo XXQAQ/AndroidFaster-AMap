@@ -4,8 +4,11 @@ import android.location.Location;
 
 import com.xq.androidfaster.base.core.Controler;
 
-public interface IBaseLocationBehavior<T extends Controler> extends Controler<T> {
+public interface IBaseLocationBehavior extends Controler {
 
+    ///////////////////////////////////////////////////////////////////////////
+    // P
+    ///////////////////////////////////////////////////////////////////////////
     //开始定位
     public void startLocation();
 
