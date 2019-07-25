@@ -8,7 +8,7 @@ import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.services.core.PoiItem;
-import com.xq.androidfaster_map.bean.entity.MarkerBean;
+import com.xq.androidfaster_map.bean.MarkerBean;
 import java.util.ArrayList;
 import java.util.List;
 

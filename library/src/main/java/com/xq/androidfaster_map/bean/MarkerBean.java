@@ -1,4 +1,4 @@
-package com.xq.androidfaster_map.bean.entity;
+package com.xq.androidfaster_map.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;

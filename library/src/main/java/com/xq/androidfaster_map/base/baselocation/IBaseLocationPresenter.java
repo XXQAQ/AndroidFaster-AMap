@@ -8,19 +8,15 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import com.amap.api.location.AMapLocation;
-import com.xq.androidfaster.base.abs.AbsPresenterDelegate;
-import com.xq.androidfaster.base.abs.IAbsPresenter;
-import com.xq.androidfaster.base.abs.IAbsView;
+import com.xq.androidfaster.base.delegate.BaseDelegate;
 import com.xq.androidfaster.util.constant.PermissionConstants;
 import com.xq.androidfaster.util.tools.BundleUtil;
 import com.xq.androidfaster.util.tools.PermissionUtils;
 import com.xq.androidfaster_map.service.LocationService;
-
 import java.util.List;
-
 import static com.xq.androidfaster_map.service.LocationService.ACTION_LOCATION;
 
-public interface IBaseLocationPresenter<T extends IAbsView> extends IAbsLocationPresenter<T> {
+public interface IBaseLocationPresenter<T extends IBaseLocationBehavior> extends IBaseLocationBehavior<T> {
 
     @Override
     default void startLocation(){
@@ -32,13 +28,18 @@ public interface IBaseLocationPresenter<T extends IAbsView> extends IAbsLocation
         return getLocationDelegate().getLocation();
     }
 
+    @Override
+    default boolean isFirstLocation() {
+        return getLocationDelegate().isFirstLocation();
+    }
+
     public LocationDelegate getLocationDelegate();
 
-    public abstract class LocationDelegate<T extends IAbsView> extends AbsPresenterDelegate<T> implements IAbsLocationPresenter<T> {
+    public abstract class LocationDelegate<T extends IBaseLocationBehavior> extends BaseDelegate<T> implements IBaseLocationBehavior<T> {
 
-        protected Location location;
+        private Location location;
 
-        public boolean isFirstLocation = true;
+        private boolean isFirstLocation = true;
 
         protected BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override
@@ -50,15 +51,14 @@ public interface IBaseLocationPresenter<T extends IAbsView> extends IAbsLocation
                     {
                         LocationDelegate.this.location = location;
                         onReceiveLocation(location);
-                        if (isFirstLocation)
-                            isFirstLocation = false;
+                        if (isFirstLocation) isFirstLocation = false;
                     }
                 }
             }
         };
 
-        public LocationDelegate(IAbsPresenter presenter) {
-            super(presenter);
+        public LocationDelegate(T controler) {
+            super(controler);
         }
 
         @Override
@@ -87,14 +87,19 @@ public interface IBaseLocationPresenter<T extends IAbsView> extends IAbsLocation
             LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver);
         }
 
-        //开始定位
+        @Override
         public void startLocation(){
             getContext().startService(new Intent(getContext(), LocationService.class));
         }
 
-        //获取定位
+        @Override
         public Location getLocation() {
             return location;
+        }
+
+        @Override
+        public boolean isFirstLocation() {
+            return isFirstLocation;
         }
 
         //该方法在接收到定位数据后调用，您需要忽略此方法，而选择重写afterReceiveLocation完成后续逻辑

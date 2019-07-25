@@ -1,11 +1,15 @@
 package com.xq.androidfaster_map.base.basemap;
 
-import com.xq.androidfaster.base.abs.IAbsView;
-import com.xq.androidfaster_map.bean.behavior.MarkerBehavior;
+import com.xq.androidfaster_map.base.baselocation.IBaseLocationBehavior;
 import java.util.List;
 
-public interface IAbsMapView<T extends IAbsMapPresenter> extends IAbsView<T> {
+public interface IBaseMapBehavior<T extends IBaseMapBehavior> extends IBaseLocationBehavior<T> {
 
+    //为P层设计的方法
+
+
+
+    //为V层设计的方法
     //设置Markers(不会对地图上已添加的Markers去重)
     public void setMarkers(List list);
 

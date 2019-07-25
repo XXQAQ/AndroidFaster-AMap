@@ -2,6 +2,7 @@ package com.xq.androidfaster_map.base.basemap;
 
 import android.graphics.Color;
 import android.graphics.Point;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -38,8 +39,8 @@ import com.amap.api.services.route.RouteResult;
 import com.amap.api.services.route.RouteSearch;
 import com.amap.api.services.route.WalkPath;
 import com.amap.api.services.route.WalkRouteResult;
-import com.xq.androidfaster.base.abs.AbsViewDelegate;
-import com.xq.androidfaster.base.abs.IAbsView;
+import com.xq.androidfaster.base.base.IFasterBaseBehavior;
+import com.xq.androidfaster.base.delegate.BaseDelegate;
 import com.xq.androidfaster.util.tools.ScreenUtils;
 import com.xq.androidfaster_map.bean.behavior.MarkerBehavior;
 import com.xq.androidfaster_map.util.amap.overlay.BusRouteOverlay;
@@ -53,7 +54,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T> {
+public interface IBaseMapView<T extends IBaseMapPresenter> extends IBaseMapBehavior<T> {
 
     @Override
     default void setMarkers(List list){
@@ -167,7 +168,7 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
 
     public MapDelegate getMapDelegate();
 
-    public abstract class MapDelegate<T extends IBaseMapPresenter> extends AbsViewDelegate<T> implements IAbsMapView<T> {
+    public abstract class MapDelegate<T extends IBaseMapPresenter> extends BaseDelegate<T> implements IBaseMapBehavior<T> {
 
         public static int MARKERANIMATE_DURATION = 500;
 
@@ -182,8 +183,8 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
 
         protected RouteSearch routeSearch;
 
-        public MapDelegate(IAbsView view) {
-            super(view);
+        public MapDelegate(T controler) {
+            super(controler);
         }
 
         @Override
@@ -620,16 +621,16 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
 
         @Override
         public void moveMapToLocationPoint(){
-            if (getBindPresenter().getLocation() != null)
-                moveMapToPoint(new double[]{getBindPresenter().getLocation().getLatitude(),getBindPresenter().getLocation().getLongitude()});
+            if (getLocation() != null)
+                moveMapToPoint(new double[]{getLocation().getLatitude(),getLocation().getLongitude()});
             else
                 afterGetLocationErro();
         }
 
         @Override
         public void moveMapToLocationPoint(int scale) {
-            if (getBindPresenter().getLocation() != null)
-                moveMapToPoint(new double[]{getBindPresenter().getLocation().getLatitude(),getBindPresenter().getLocation().getLongitude()},scale);
+            if (getLocation() != null)
+                moveMapToPoint(new double[]{getLocation().getLatitude(),getLocation().getLongitude()},scale);
             else
                 afterGetLocationErro();
         }
@@ -712,6 +713,25 @@ public interface IBaseMapView<T extends IBaseMapPresenter> extends IAbsMapView<T
         //兴趣点搜索结束后调用
         protected abstract void afterGetPoiFinish(PoiResult result,boolean isSuccess);
 
+
+
+        @Deprecated
+        @Override
+        public void startLocation() {
+            ((IBaseMapBehavior)((IFasterBaseBehavior)getControler()).getBindAnother()).startLocation();
+        }
+
+        @Deprecated
+        @Override
+        public Location getLocation() {
+            return ((IBaseMapBehavior)((IFasterBaseBehavior)getControler()).getBindAnother()).getLocation();
+        }
+
+        @Deprecated
+        @Override
+        public boolean isFirstLocation() {
+            return ((IBaseMapBehavior)((IFasterBaseBehavior)getControler()).getBindAnother()).isFirstLocation();
+        }
     }
 
 }
