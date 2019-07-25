@@ -19,6 +19,9 @@ import static com.xq.androidfaster_map.service.LocationService.ACTION_LOCATION;
 
 public interface IBaseLocationPresenter extends IBaseLocationBehavior {
 
+    ///////////////////////////////////////////////////////////////////////////
+    // P
+    ///////////////////////////////////////////////////////////////////////////
     @Override
     default void startLocation(){
         getLocationDelegate().startLocation();
