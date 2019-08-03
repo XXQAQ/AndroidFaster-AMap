@@ -8,6 +8,20 @@ import java.util.List;
 
 public interface IBaseMapPresenter extends IBaseLocationPresenter, IBaseMapBehavior {
 
+    @Deprecated
+    @Override
+    default LocationDelegate getLocationDelegate() {
+        return getMapDelegate();
+    }
+
+    public MapDelegate getMapDelegate();
+
+    ///////////////////////////////////////////////////////////////////////////
+    // P
+    ///////////////////////////////////////////////////////////////////////////
+
+
+
     ///////////////////////////////////////////////////////////////////////////
     // V
     ///////////////////////////////////////////////////////////////////////////
@@ -142,14 +156,6 @@ public interface IBaseMapPresenter extends IBaseLocationPresenter, IBaseMapBehav
     default double[] getMapCenter(){
         return getMapDelegate().getMapCenter();
     }
-
-    @Deprecated
-    @Override
-    default LocationDelegate getLocationDelegate() {
-        return getMapDelegate();
-    }
-
-    public MapDelegate getMapDelegate();
 
     public abstract class MapDelegate extends LocationDelegate implements IBaseMapBehavior {
 

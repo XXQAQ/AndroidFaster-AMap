@@ -19,6 +19,8 @@ import static com.xq.androidfaster_map.service.LocationService.ACTION_LOCATION;
 
 public interface IBaseLocationPresenter extends IBaseLocationBehavior {
 
+    public LocationDelegate getLocationDelegate();
+
     ///////////////////////////////////////////////////////////////////////////
     // P
     ///////////////////////////////////////////////////////////////////////////
@@ -37,7 +39,11 @@ public interface IBaseLocationPresenter extends IBaseLocationBehavior {
         return getLocationDelegate().isFirstLocation();
     }
 
-    public LocationDelegate getLocationDelegate();
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    // V
+    ///////////////////////////////////////////////////////////////////////////
 
     public abstract class LocationDelegate extends BaseDelegate implements IBaseLocationBehavior {
 

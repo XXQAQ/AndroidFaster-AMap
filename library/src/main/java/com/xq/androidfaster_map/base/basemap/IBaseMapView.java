@@ -57,6 +57,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public interface IBaseMapView extends IBaseMapBehavior {
 
+    public MapDelegate getMapDelegate();
+
     ///////////////////////////////////////////////////////////////////////////
     // V
     ///////////////////////////////////////////////////////////////////////////
@@ -170,7 +172,25 @@ public interface IBaseMapView extends IBaseMapBehavior {
         return getMapDelegate().getMapCenter();
     }
 
-    public MapDelegate getMapDelegate();
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    // P
+    ///////////////////////////////////////////////////////////////////////////
+    @Override
+    default void startLocation(){
+        getMapDelegate().startLocation();
+    }
+
+    @Override
+    default Location getLocation() {
+        return getMapDelegate().getLocation();
+    }
+
+    @Override
+    default boolean isFirstLocation() {
+        return getMapDelegate().isFirstLocation();
+    }
 
     public abstract class MapDelegate extends BaseDelegate implements IBaseMapBehavior {
 
