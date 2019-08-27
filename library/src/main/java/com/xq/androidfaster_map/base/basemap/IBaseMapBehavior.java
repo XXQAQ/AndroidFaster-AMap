@@ -1,6 +1,7 @@
 package com.xq.androidfaster_map.base.basemap;
 
 import com.xq.androidfaster_map.base.baselocation.IBaseLocationBehavior;
+import com.xq.androidfaster_map.bean.behavior.MarkerBehavior;
 import java.util.List;
 
 public interface IBaseMapBehavior extends IBaseLocationBehavior {
@@ -15,16 +16,16 @@ public interface IBaseMapBehavior extends IBaseLocationBehavior {
     // V
     ///////////////////////////////////////////////////////////////////////////
     //设置Markers(不会对地图上已添加的Markers去重)
-    public void setMarkers(List list);
+    public void setMarkers(List<? extends MarkerBehavior> list);
 
     //设置Markers(对重复添加的Markers去重，且使用覆盖模式)
-    public void setDifferentMarkers(final List list);
+    public void setDifferentMarkers(List<? extends MarkerBehavior> list);
 
     //设置Markers(对重复添加的Markers去重，isAppend表示追加模式或者覆盖模式)
-    public void setDifferentMarkers(final List list, boolean isAppend);
+    public void setDifferentMarkers(List<? extends MarkerBehavior> list, boolean isAppend);
 
     //删除指定Markers
-    public void removeMarkers(final List list);
+    public void removeMarkers(List<? extends MarkerBehavior> list);
 
     //清空所有Markers
     public void clearMarkers();

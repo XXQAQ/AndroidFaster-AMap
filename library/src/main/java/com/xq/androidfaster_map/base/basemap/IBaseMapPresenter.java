@@ -4,6 +4,7 @@ import android.location.Location;
 import com.xq.androidfaster.base.base.IFasterBaseBehavior;
 import com.xq.androidfaster.base.core.Controler;
 import com.xq.androidfaster_map.base.baselocation.IBaseLocationPresenter;
+import com.xq.androidfaster_map.bean.behavior.MarkerBehavior;
 import java.util.List;
 
 public interface IBaseMapPresenter extends IBaseLocationPresenter, IBaseMapBehavior {
@@ -27,25 +28,25 @@ public interface IBaseMapPresenter extends IBaseLocationPresenter, IBaseMapBehav
     ///////////////////////////////////////////////////////////////////////////
     @Deprecated
     @Override
-    default void setMarkers(List list){
+    default void setMarkers(List<? extends MarkerBehavior> list){
         getMapDelegate().setMarkers(list);
     }
 
     @Deprecated
     @Override
-    default void setDifferentMarkers(final List list){
+    default void setDifferentMarkers(List<? extends MarkerBehavior> list){
         getMapDelegate().setDifferentMarkers(list);
     }
 
     @Deprecated
     @Override
-    default void setDifferentMarkers(final List list, boolean isAppend) {
+    default void setDifferentMarkers(List<? extends MarkerBehavior> list, boolean isAppend) {
         getMapDelegate().setDifferentMarkers(list,isAppend);
     }
 
     @Deprecated
     @Override
-    default void removeMarkers(final List list) {
+    default void removeMarkers(List<? extends MarkerBehavior> list) {
         getMapDelegate().removeMarkers(list);
     }
 
@@ -177,25 +178,25 @@ public interface IBaseMapPresenter extends IBaseLocationPresenter, IBaseMapBehav
         ///////////////////////////////////////////////////////////////////////////
         @Deprecated
         @Override
-        public void setMarkers(List list) {
+        public void setMarkers(List<? extends MarkerBehavior> list) {
             ((IBaseMapBehavior)((IFasterBaseBehavior)getControler()).getBindAnother()).setMarkers(list);
         }
 
         @Deprecated
         @Override
-        public void setDifferentMarkers(final List list) {
+        public void setDifferentMarkers(List<? extends MarkerBehavior> list) {
             ((IBaseMapBehavior)((IFasterBaseBehavior)getControler()).getBindAnother()).setDifferentMarkers(list);
         }
 
         @Deprecated
         @Override
-        public void setDifferentMarkers(final List list, boolean isAppend) {
+        public void setDifferentMarkers(List<? extends MarkerBehavior> list, boolean isAppend) {
             ((IBaseMapBehavior)((IFasterBaseBehavior)getControler()).getBindAnother()).setDifferentMarkers(list,isAppend);
         }
 
         @Deprecated
         @Override
-        public void removeMarkers(final List list) {
+        public void removeMarkers(List<? extends MarkerBehavior> list) {
             ((IBaseMapBehavior)((IFasterBaseBehavior)getControler()).getBindAnother()).removeMarkers(list);
         }
 

@@ -63,22 +63,22 @@ public interface IBaseMapView extends IBaseMapBehavior {
     // V
     ///////////////////////////////////////////////////////////////////////////
     @Override
-    default void setMarkers(List list){
+    default void setMarkers(List<? extends MarkerBehavior> list){
         getMapDelegate().setMarkers(list);
     }
 
     @Override
-    default void setDifferentMarkers(final List list){
+    default void setDifferentMarkers(List<? extends MarkerBehavior> list){
         getMapDelegate().setDifferentMarkers(list);
     }
 
     @Override
-    default void setDifferentMarkers(final List list, boolean isAppend) {
+    default void setDifferentMarkers(List<? extends MarkerBehavior> list, boolean isAppend) {
         getMapDelegate().setDifferentMarkers(list,isAppend);
     }
 
     @Override
-    default void removeMarkers(final List list) {
+    default void removeMarkers(List<? extends MarkerBehavior> list) {
         getMapDelegate().removeMarkers(list);
     }
 
@@ -384,7 +384,7 @@ public interface IBaseMapView extends IBaseMapBehavior {
         }
 
         @Override
-        public void setMarkers(List list){
+        public void setMarkers(List<? extends MarkerBehavior> list){
 
             List<Marker> list_newMarker = new LinkedList<>();
 
@@ -415,12 +415,12 @@ public interface IBaseMapView extends IBaseMapBehavior {
         }
 
         @Override
-        public void setDifferentMarkers(List list) {
+        public void setDifferentMarkers(List<? extends MarkerBehavior> list) {
             setDifferentMarkers(list,false);
         }
 
         @Override
-        public void setDifferentMarkers(final List list, boolean isAppend){
+        public void setDifferentMarkers(final List<? extends MarkerBehavior> list, boolean isAppend){
 
             final List<MarkerBehavior> list_old = new LinkedList<>();
             final List<MarkerBehavior> list_remove = new LinkedList<>();
@@ -456,7 +456,7 @@ public interface IBaseMapView extends IBaseMapBehavior {
         }
 
         @Override
-        public void removeMarkers(final List list) {
+        public void removeMarkers(final List<? extends MarkerBehavior> list) {
 
             List<Marker> list_remove = new LinkedList();
             for (Marker marker : list_marker)
