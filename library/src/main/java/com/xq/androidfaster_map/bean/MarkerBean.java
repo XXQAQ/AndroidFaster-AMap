@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import com.xq.androidfaster_map.bean.behavior.MarkerBehavior;
 import com.xq.worldbean.bean.entity.base.BaseTitleBean;
 
-public class MarkerBean extends BaseTitleBean<MarkerBean> implements MarkerBehavior<MarkerBean>, Parcelable {
+public class MarkerBean extends BaseTitleBean implements MarkerBehavior, Parcelable {
 
     protected double latitude;
     protected double longitude;
@@ -24,15 +24,29 @@ public class MarkerBean extends BaseTitleBean<MarkerBean> implements MarkerBehav
         this.title = title;
     }
 
+    public MarkerBean(double latitude, double longitude, CharSequence title,Object tag) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.title = title;
+        this.tag = tag;
+    }
+
+    public MarkerBean(String id,double latitude, double longitude, CharSequence title,Object tag) {
+        this.id = id;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.title = title;
+        this.tag = tag;
+    }
+
     @Override
     public double getLatitude() {
         return latitude;
     }
 
     @Override
-    public MarkerBean setLatitude(double latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
-        return this;
     }
 
     @Override
@@ -41,9 +55,8 @@ public class MarkerBean extends BaseTitleBean<MarkerBean> implements MarkerBehav
     }
 
     @Override
-    public MarkerBean setLongitude(double longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
-        return this;
     }
 
     @Override

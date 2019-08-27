@@ -4,7 +4,7 @@ import com.xq.worldbean.bean.behavior.BaseBehavior;
 import com.xq.worldbean.bean.behavior.CoordinateBehavior;
 import com.xq.worldbean.bean.behavior.TitleBehavior;
 
-public interface MarkerBehavior<T extends MarkerBehavior> extends BaseBehavior<T>, CoordinateBehavior<T>, TitleBehavior<T> {
+public interface MarkerBehavior extends BaseBehavior, CoordinateBehavior, TitleBehavior {
 
     @Override
     default double getX() {
@@ -23,14 +23,12 @@ public interface MarkerBehavior<T extends MarkerBehavior> extends BaseBehavior<T
 
     public double getLatitude();
 
-    default T setLatitude(double latitude) {
-        return (T) this;
+    default void setLatitude(double latitude) {
     }
 
     public double getLongitude();
 
-    default T setLongitude(double longitude) {
-        return (T) this;
+    default void setLongitude(double longitude) {
     }
 
 }
