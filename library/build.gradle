@@ -50,8 +50,8 @@ dependencies {
     implementation 'com.github.XXQAQ:WorldBean:1.20.0'
     implementation 'com.github.XXQAQ:AndroidFaster:3.29.0'
     //    高德
-    implementation 'com.amap.api:3dmap:latest.integration'
-    implementation 'com.amap.api:location:latest.integration'
-    implementation 'com.amap.api:search:latest.integration'
+    api 'com.amap.api:3dmap:latest.integration'
+    api 'com.amap.api:location:latest.integration'
+    api 'com.amap.api:search:latest.integration'
 
 }
