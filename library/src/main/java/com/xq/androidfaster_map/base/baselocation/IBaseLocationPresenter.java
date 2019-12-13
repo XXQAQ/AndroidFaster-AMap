@@ -14,6 +14,8 @@ import com.xq.androidfaster.util.constant.PermissionConstants;
 import com.xq.androidfaster.util.tools.BundleUtil;
 import com.xq.androidfaster.util.tools.PermissionUtils;
 import com.xq.androidfaster_map.service.LocationService;
+import com.xq.worldbean.bean.behavior.CodeBehavior;
+import com.xq.worldbean.bean.entity.CodeBean;
 import java.util.List;
 import static com.xq.androidfaster_map.service.LocationService.ACTION_LOCATION;
 
@@ -57,11 +59,18 @@ public interface IBaseLocationPresenter extends IBaseLocationBehavior {
                 if (ACTION_LOCATION.equals(intent.getAction()))
                 {
                     Location location = intent.getExtras().getParcelable(BundleUtil.KEY_DATA);
+
+                    if (location == null)   return;
+
                     if (((AMapLocation)location).getErrorCode() == 0)
                     {
                         LocationDelegate.this.location = location;
                         onReceiveLocation(location);
                         if (isFirstLocation) isFirstLocation = false;
+                    }
+                    else
+                    {
+                        onLocationErro(new CodeBean(((AMapLocation) location).getErrorCode(),((AMapLocation) location).getErrorInfo()));
                     }
                 }
             }
@@ -116,6 +125,11 @@ public interface IBaseLocationPresenter extends IBaseLocationBehavior {
         @Deprecated
         protected void onReceiveLocation(Location location){
             afterReceiveLocation(location);
+        }
+
+        //在定位数据异常后调用
+        protected void onLocationErro(CodeBehavior codeBehavior){
+
         }
 
         //该方法在onReceiveLocation调用，重写该方法完成后续逻辑
